@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Detecting Cyber Threats Through Anomaly Detection in Network Traffic Data</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0; padding: 0;
+    background: #0f2027;  /* fallback for gradient */
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #e0e0e0;
+    line-height: 1.6;
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 15px;
+    min-height: 600px;
+    user-select: none;
+  }
+  h1, h2 {
+    text-align: center;
+    font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: #00bcd4;
+    text-shadow: 0 0 8px #00bcd4aa;
+  }
+  h1 {
+    font-size: 1.8rem;
+  }
+  h2 {
+    font-size: 1.3rem;
+  }
+  .topic {
+    background: rgba(0, 188, 212, 0.1);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 0 15px #00bcd4aa;
+  }
+  p {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+  }
+  canvas {
+    width: 100% !important;
+    max-height: 220px !important;
+    margin-top: 10px;
+    border-radius: 12px;
+  }
+  footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.8rem;
+    color: #aaa;
+  }
+  /* Scrollbar hidden for cleaner mobile look */
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+</style>
+</head>
+<body>
+  <h1>Detecting Cyber Threats Through Anomaly Detection in Network Traffic Data</h1>
+
+  <section class="topic" id="topic1">
+    <h2>1. Introduction to Network Traffic Anomaly Detection</h2>
+    <p>
+      Network traffic anomaly detection involves monitoring data flow within a network to identify patterns that deviate significantly from expected behavior.
+      These anomalies can indicate potential cyber threats such as intrusions, denial of service attacks, or unauthorized access.
+      This process helps in early threat detection and prevention.
+    </p>
+    <canvas id="lineChart"></canvas>
+  </section>
+
+  <section class="topic" id="topic2">
+    <h2>2. Types of Anomalies in Network Traffic</h2>
+    <p>
+      Anomalies in network traffic can be classified into several types such as:
+      <ul>
+        <li>Volume anomalies - sudden spikes or drops in traffic volume</li>
+        <li>Protocol anomalies - use of unusual protocol types</li>
+        <li>Behavioral anomalies - unexpected access patterns or flow</li>
+        <li>Structural anomalies - unexpected connection topology</li>
+      </ul>
+      Understanding these types helps in identifying the nature of the threat.
+    </p>
+    <canvas id="pieChart"></canvas>
+  </section>
+
+  <section class="topic" id="topic3">
+    <h2>3. Techniques for Anomaly Detection</h2>
+    <p>
+      Various techniques are used to detect anomalies, including:
+      <ul>
+        <li>Statistical Methods - detect deviations from statistical norms</li>
+        <li>Machine Learning - use models to classify normal and abnormal traffic</li>
+        <li>Rule-Based Detection - use predefined patterns and heuristic rules</li>
+        <li>Clustering Algorithms - group similar traffic and highlight outliers</li>
+      </ul>
+      The effectiveness of these techniques varies based on network complexity and threat type.
+    </p>
+    <canvas id="barChart"></canvas>
+  </section>
+
+  <section class="topic" id="topic4">
+    <h2>4. Visualization of Anomalies Using Graphs</h2>
+    <p>
+      Visualizing network traffic anomalies helps analysts quickly identify threats and understand their characteristics.
+      Scatter plots, line graphs, and heatmaps are common tools to represent traffic volume, anomaly scores, and time patterns.
+      Effective visualization supports faster and more accurate response to cyber threats.
+    </p>
+    <canvas id="scatterChart"></canvas>
+  </section>
+
+  <footer>© 2024 Cyber Threat Detection Project</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Data for Topic 1 Line Chart - Network Traffic Volume with Anomaly Spikes
+  const ctxLine = document.getElementById('lineChart').getContext('2d');
+  const lineChart = new Chart(ctxLine, {
+    type: 'line',
+    data: {
+      labels: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00'],
+      datasets: [
+        {
+          label: 'Normal Traffic',
+          data: [50, 55, 53, 60, 65, 58, 62, 70, 65, 60, 59, 57],
+          borderColor: '#00bcd4',
+          backgroundColor: 'rgba(0, 188, 212, 0.3)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.3,
+          pointRadius: 3
+        },
+        {
+          label: 'Anomaly Traffic',
+          data: [null, null, 80, null, null, 100, null, null, 88, null, null, null],
+          borderColor: '#ff5252',
+          backgroundColor: 'rgba(255, 82, 82, 0.4)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.3,
+          pointRadius: 6,
+          pointStyle: 'rectRot',
+          spanGaps: true
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {duration: 800},
+      plugins: {
+        legend: {
+          labels: {
+            color: '#e0e0e0',
+            font: {weight: 'bold'}
+          }
+        },
+        tooltip: {
+          mode: 'index',
+          intersect: false
+        }
+      },
+      scales: {
+        x: {
+          ticks: {color: '#e0e0e0'},
+          grid: {color: 'rgba(224,224,224,0.1)'}
+        },
+        y: {
+          beginAtZero: true,
+          ticks: {color: '#e0e0e0'},
+          grid: {color: 'rgba(224,224,224,0.1)'}
+        }
+      },
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      }
+    }
+  });
+
+  // Data for Topic 2 Pie Chart - Types of Anomalies Distribution
+  const ctxPie = document.getElementById('pieChart').getContext('2d');
+  const pieChart = new Chart(ctxPie, {
+    type: 'pie',
+    data: {
+      labels: ['Volume Anomalies', 'Protocol Anomalies', 'Behavioral Anomalies', 'Structural Anomalies'],
+      datasets: [{
+        label: 'Anomaly Types',
+        data: [40, 25, 20, 15],
+        backgroundColor: ['#00bcd4', '#ff9800', '#8bc34a', '#e91e63'],
+        hoverOffset: 30,
+        borderColor: '#0f2027',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {color: '#e0e0e0', font: {weight: 'bold'}}
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.label + ': ' + context.parsed + '%';
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // Data for Topic 3 Bar Chart - Detection Techniques Accuracy
+  const ctxBar = document.getElementById('barChart').getContext('2d');
+  const barChart = new Chart(ctxBar, {
+    type: 'bar',
+    data: {
+      labels: ['Statistical', 'Machine Learning', 'Rule-Based', 'Clustering'],
+      datasets: [{
+        label: 'Detection Accuracy (%)',
+        data: [75, 90, 65, 80],
+        backgroundColor: [
+          '#03a9f4',
+          '#00bcd4',
+          '#2196f3',
+          '#4caf50'
+        ],
+        borderRadius: 8,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          ticks: {color: '#e0e0e0', font: {weight: 'bold'}},
+          grid: {display: false}
+        },
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: {color: '#e0e0e0', stepSize: 20, font: {weight: 'bold'}},
+          grid: {color: 'rgba(224,224,224,0.1)'}
+        }
+      },
+      plugins: {
+        legend: {display: false},
+        tooltip: {
+          enabled: true,
+          backgroundColor: '#00bcd4',
+          titleColor: '#0f2027',
+          bodyColor: '#0f2027',
+          titleFont: {weight:'bold'}
+        }
+      }
+    }
+  });
+
+  // Data for Topic 4 Scatter Plot - Detected Anomalies in Traffic Data
+  const ctxScatter = document.getElementById('scatterChart').getContext('2d');
+  const scatterDataPoints = [
+    {x: 10, y: 50},
+    {x: 15, y: 48},
+    {x: 20, y: 52},
+    {x: 25, y: 120},  // anomaly
+    {x: 30, y: 58},
+    {x: 35, y: 55},
+    {x: 40, y: 53},
+    {x: 45, y: 130},  // anomaly
+    {x: 50, y: 60},
+    {x: 55, y: 62},
+    {x: 60, y: 48},
+  ];
+  const scatterChart = new Chart(ctxScatter, {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: 'Normal Traffic',
+          data: scatterDataPoints.filter(p => p.y < 80),
+          backgroundColor: '#00bcd4',
+          pointRadius: 6,
+          pointHoverRadius: 8,
+          pointStyle: 'circle'
+        },
+        {
+          label: 'Anomalies',
+          data: scatterDataPoints.filter(p => p.y >= 80),
+          backgroundColor: '#ff5252',
+          pointRadius: 9,
+          pointHoverRadius: 11,
+          pointStyle: 'rectRot'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          type: 'linear',
+          position: 'bottom',
+          ticks: {color: '#e0e0e0'},
+          grid: {color: 'rgba(224,224,224,0.1)'},
+          title: {
+            display: true,
+            text: 'Time (minutes)',
+            color: '#00bcd4',
+            font: {size: 14, weight: 'bold'}
+          },
+          min: 5,
+          max: 65
+        },
+        y: {
+          beginAtZero: true,
+          ticks: {color: '#e0e0e0'},
+          grid: {color: 'rgba(224,224,224,0.1)'},
+          title: {
+            display: true,
+            text: 'Traffic Volume',
+            color: '#00bcd4',
+            font: {size: 14, weight: 'bold'}
+          },
+          max: 140
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: '#e0e0e0',
+            font: {weight: 'bold'}
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return (context.dataset.label || '') + ': (' + context.parsed.x + ', ' + context.parsed.y + ')';
+            }
+          }
+        }
+      }
+    }
+  });
+</script>
+</body>
+</html>
+</content>
+</create_file>
